@@ -15,7 +15,7 @@ helm install my-kafka bitnami/kafka --set fullnameOverride=my-kafka
 ## To connect a client to your Kafka, you need to create the 'client.properties' configuration files with the content below:
 ```
 security.protocol=SASL_PLAINTEXT
-sasl.mechanism=SCRAM-SHA-256
+sasl.mechanism=PLAIN
 sasl.jaas.config=org.apache.kafka.common.security.scram.ScramLoginModule required \
     username="user1" \
     password="$(kubectl get secret my-kafka-user-passwords --namespace CHANGEME -o jsonpath='{.data.client-passwords}' | base64 -d | cut -d , -f 1)";
