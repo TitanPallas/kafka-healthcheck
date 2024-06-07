@@ -12,7 +12,7 @@ kafka:
         password: "adminPassword"
     clients:
       - user: "user1"
-        password: "vgJSL9Uh6Y"
+        password: "vgJSL9Uh6Y"  # Setting the specific password for user1
 
   configurationOverrides:
     server:
@@ -29,6 +29,15 @@ kafka:
       sasl.enabled.mechanisms: "PLAIN,SCRAM-SHA-256,SCRAM-SHA-512"
       listener.name.sasl.mechanisms: "PLAIN"
       listener.name.sasl.plain.sasl.jaas.config: "org.apache.kafka.common.security.plain.PlainLoginModule required username='user1' password='vgJSL9Uh6Y';"
+    client:
+      sasl.mechanism: "PLAIN"
+
+sasl:
+  enabledMechanisms: PLAIN
+  client:
+    users:
+      - user1
+    passwords: "vgJSL9Uh6Y"
 
 topicOperator:
   enabled: true
