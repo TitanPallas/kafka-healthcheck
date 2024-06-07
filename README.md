@@ -28,8 +28,7 @@ kubectl exec --tty -i my-kafka-client --namespace CHANGEME -- bash
 kafka-topics.sh --create --topic health_checks_topic --partitions 1 --replication-factor 1 --if-not-exists --command-config /tmp/client.properties --bootstrap-server my-kafka:9092
 kafka-topics.sh --list --command-config /tmp/client.properties --bootstrap-server my-kafka:9092
 ```
-## Alternatively you can use the values.yaml with your own helm chart.
-## The topic is also going to be created automatically.
+## Alternatively you can use the values.yaml with your own helm chart. The topic is also going to be created automatically.
 
 ```
 helm install my-kafka -f ./kafka-chart-values/values.yml bitnami/kafka 
