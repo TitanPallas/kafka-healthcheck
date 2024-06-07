@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: consumer-health-check-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: consumer-health-check-service
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 1
+  template:
+    metadata:
+      labels:
+        app: consumer-health-check-service
+    spec:
+      containers:
+      - name: consumer-health-check-service
+        imagePullPolicy: Always
+        image: titanpallas/kafka-consumer-healthcheck:v1
+        ports:
+        - containerPort: 5001
+        env:
+        - name: KAFKA_BROKER
+          value: "my-kafka:9092"
+        - name: KAFKA_TOPIC
+          value: "health_checks_topic"
+        resources:
+          limits:
+            memory: "256Mi"
+            cpu: "500m"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: consumer-health-check-service
+spec:
+  selector:
+    app: consumer-health-check-service
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 5001
+  type: ClusterIP
+

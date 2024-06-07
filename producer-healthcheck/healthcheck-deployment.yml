@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: health-check-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: health-check-service
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 1
+  template:
+    metadata:
+      labels:
+        app: health-check-service
+    spec:
+      containers:
+      - name: health-check-service
+        imagePullPolicy: Always
+        image: titanpallas/kafka-healthcheck:v6
+        ports:
+        - containerPort: 5001
+        env:
+        - name: KAFKA_BROKER
+          value: "my-kafka:9092"
+        - name: KAFKA_TOPIC
+          value: "health_checks_topic"
+        resources:
+          limits:
+            memory: "256Mi"
+            cpu: "500m"
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: health-check-service
+spec:
+  selector:
+    app: health-check-service
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 5001
+  type: ClusterIP
