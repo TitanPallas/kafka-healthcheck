@@ -6,12 +6,16 @@ helm repo add bitnami https://charts.bitnami.com/bitnami
 helm repo update
 ```
 
-## Deploy the Kafka Helm Chart:
+## Deploy the Kafka Helm Chart with the values.yaml. The topic is also going to be created automatically:
+```
+helm install my-kafka -f ./kafka-chart-values/values.yml bitnami/kafka 
+```
 
-Install Kafka using the Helm chart. Customize the values as needed.
+## Alternatively you can use your own set of values.yml, but you need to rebuild the Docker images.
 ```
-helm install my-kafka bitnami/kafka --set fullnameOverride=my-kafka 
+helm install my-kafka bitnami/kafka --set fullnameOverride=my-kafka
 ```
+
 ## To connect a client to your Kafka, you need to create the 'client.properties' configuration files with the content below:
 ```
 security.protocol=SASL_PLAINTEXT
@@ -27,9 +31,4 @@ kubectl run my-kafka-client --restart='Never' --image docker.io/bitnami/kafka:3.
 kubectl exec --tty -i my-kafka-client --namespace CHANGEME -- bash
 kafka-topics.sh --create --topic health_checks_topic --partitions 1 --replication-factor 1 --if-not-exists --command-config /tmp/client.properties --bootstrap-server my-kafka:9092
 kafka-topics.sh --list --command-config /tmp/client.properties --bootstrap-server my-kafka:9092
-```
-## Alternatively you can use the values.yaml with your own helm chart. The topic is also going to be created automatically.
-
-```
-helm install my-kafka -f ./kafka-chart-values/values.yml bitnami/kafka 
 ```
