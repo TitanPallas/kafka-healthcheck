@@ -1,5 +1,5 @@
 # Install Prometheus by following these instructions:
-## Add the Helm Repository for Kafka:
+## Add the Helm Repository for Prometheus:
 ```
 helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
 helm repo update
