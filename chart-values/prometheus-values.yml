@@ -4,8 +4,8 @@ prometheusOperator:
     releaseNamespace: true
     additional:
       - kube-system
-      - radu-deployment-strategies-2
-
+      - default
+      - monitoring
 prometheus:
   enabled: true
   prometheusSpec:
