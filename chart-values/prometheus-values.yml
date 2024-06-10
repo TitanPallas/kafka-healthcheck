@@ -1,0 +1,15 @@
+prometheusOperator:
+  createCustomResource: true
+  namespaces:
+    releaseNamespace: true
+    additional:
+      - kube-system
+      - radu-deployment-strategies-2
+
+prometheus:
+  enabled: true
+  prometheusSpec:
+    serviceMonitorSelectorNilUsesHelmValues: true
+    serviceMonitorSelector:
+      matchLabels:
+        release: prometheus

@@ -1,3 +1,14 @@
+# Install Prometheus by following these instructions:
+## Add the Helm Repository for Kafka:
+```
+helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+helm repo update
+```
+## Deploy the Prometheus Helm Chart with the prometheus-values.yml.
+```
+helm install prometheus -f ./chart-values/prometheus-values.yml prometheus-community/kube-prometheus-stack
+```
+
 # Install Kafka by following these instructions:
 
 ## Add the Helm Repository for Kafka:
@@ -8,7 +19,7 @@ helm repo update
 
 ## Deploy the Kafka Helm Chart with the values.yaml. The topic is also going to be created automatically:
 ```
-helm install my-kafka -f ./kafka-chart-values/values.yml bitnami/kafka 
+helm install my-kafka -f ./chart-values/kafka-values.yml bitnami/kafka 
 ```
 
 ## Alternatively you can use your own set of values.yml, but you need to rebuild the Docker images.
@@ -32,3 +43,4 @@ kubectl exec --tty -i my-kafka-client --namespace CHANGEME -- bash
 kafka-topics.sh --create --topic health_checks_topic --partitions 1 --replication-factor 1 --if-not-exists --command-config /tmp/client.properties --bootstrap-server my-kafka:9092
 kafka-topics.sh --list --command-config /tmp/client.properties --bootstrap-server my-kafka:9092
 ```
+

@@ -55,6 +55,14 @@ metrics:
     enabled: true
   jmx:
     enabled: true
+    image:
+      registry: docker.io
+      repository: bitnami/jmx-exporter
+      tag: 0.20.0-debian-12-r18
+  serviceMonitor:
+    enabled: true
+    labels:
+      release: prometheus
 
 service:
   type: ClusterIP
